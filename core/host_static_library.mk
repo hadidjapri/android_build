@@ -6,7 +6,7 @@
 ##
 ## LOCAL_MODULE_SUFFIX will be set for you.
 ###########################################################
-
+LOCAL_DISABLE_GRAPHITE := true
 ifeq ($(strip $(LOCAL_MODULE_CLASS)),)
 LOCAL_MODULE_CLASS := STATIC_LIBRARIES
 endif

@@ -12,6 +12,7 @@ endif
 ifeq ($(strip $(LOCAL_MODULE_SUFFIX)),)
 LOCAL_MODULE_SUFFIX := $(HOST_EXECUTABLE_SUFFIX)
 endif
+#LOCAL_DISABLE_GRAPHITE := true
 
 $(call host-executable-hook)
 

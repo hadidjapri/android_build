@@ -142,6 +142,34 @@ ifeq ($(strip $(LOCAL_ENABLE_APROF)),true)
   LOCAL_CPPFLAGS += -fno-omit-frame-pointer -fno-function-sections -pg
 endif
 
+#####################################################################################################
+## begin graphite
+ifdef DISABLE_GRAPHTE_MODULES
+DISABLE_GRAPHTE_MODULES += libjni_filtershow_filters \
+ libstagefright_amrwbenc \
+ libFFTEm \
+ libwebviewchromium \
+ libstagefright_mp3dec \
+ libwebrtc_spl \
+ libart
+else
+DISABLE_GRAPHTE_MODULES := libjni_filtershow_filters \
+ libstagefright_amrwbenc \
+ libFFTEm \
+ libwebviewchromium \
+ libstagefright_mp3dec \
+ libwebrtc_spl \
+ libart
+endif
+
+ifeq ($(filter $(DISABLE_GRAPHTE_MODULES),$(LOCAL_MODULE)),)
+ifneq ($(strip $(LOCAL_DISABLE_GRAPHITE)),true)
+ LOCAL_CFLAGS += -fgraphite -floop-parallelize-all -ftree-loop-linear -floop-interchange -floop-strip-mine -floop-block
+ LOCAL_CPPFLAGS += -fgraphite -floop-parallelize-all -ftree-loop-linear -floop-interchange -floop-strip-mine -floop-block
+endif
+endif
+## end graphite
+
 ###########################################################
 ## Explicitly declare assembly-only __ASSEMBLY__ macro for
 ## assembly source
@@ -357,6 +385,10 @@ LOCAL_STATIC_LIBRARIES += libprotobuf-cpp-2.3.0-lite
 endif
 endif
 
+ifneq (1,$(words $(filter $(DISABLE_GRAPHITE), $(LOCAL_MODULE))))
+LOCAL_CFLAGS += $(GRAPHITE_FLAGS)
+LOCAL_CPPFLAGS += $(GRAPHITE_FLAGS)
+endif
 
 ###########################################################
 ## YACC: Compile .y files to .cpp and the to .o.

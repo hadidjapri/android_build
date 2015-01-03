@@ -37,6 +37,7 @@ ifndef skip_build_from_source
 # Put the built modules of all shared libraries in a common directory
 # to simplify the link line.
 OVERRIDE_BUILT_MODULE_PATH := $(HOST_OUT_INTERMEDIATE_LIBRARIES)
+#LOCAL_DISABLE_GRAPHITE := true
 
 include $(BUILD_SYSTEM)/binary.mk
 
